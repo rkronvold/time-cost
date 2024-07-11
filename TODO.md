@@ -1,0 +1,7 @@
+install WSL2 on glmusr76
+install python, git, csvkit, fzf, bc, emacs
+install tailscale?
+set up file share to shared drive?
+change defaults to point to one drive
+test
+create shortcuts
