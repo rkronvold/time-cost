@@ -36,7 +36,7 @@ cat > /etc/sudoers.d/tailscaled <<EOF
 %sudo ALL=NOPASSWD: /sbin/ifconfig
 EOF
 dir=$(dirname -- "$( readlink -f -- "$0"; )"; )
-cp ${dir}/../../nolink/tailscale.init.d /etc/init.d/tailscale
+cp ${dir}/tailscale.init.d /etc/init.d/tailscale
 chmod 755 /etc/init.d/tailscale
 
 
