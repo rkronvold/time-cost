@@ -28,15 +28,15 @@ newconfig() {
   cat <<EOG | column -s: -t > ./timecostdata.conf
 #input files
 
-#end input files                                                  
+#end input files
 :
 #paths
-WORKPATH="/mnt/p/glm"    : # this MUST be set
-CONFDIR="\$(pwd)"         : # no need to change this
-TMPDIR="\${CONFDIR}/tmp"  : # defaults to under wherever the conf file is
+WORKPATH="/mnt/c/Users/rkronvold/OneDrive - GLM"    : # this MUST be set
+CONFDIR="\$(pwd)"                                   : # no need to change this
+TMPDIR="\${CONFDIR}/tmp"                            : # defaults to under wherever the conf file is
 :
 #working files
-INFILE="\${TMPDIR}/inputfile.csv" : # This should automatically be set to match the XLSXINFILE
+INFILE="\${TMPDIR}/inputfile.csv"                   : # This should automatically be set to match the XLSXINFILE
 CLEANFILE="\${TMPDIR}/cleaned_timesheet.csv"
 CLEANTMPFILE="\${TMPDIR}/tmp_timesheet.csv"
 HEADERFILE="\${TMPDIR}/header.csv"
@@ -57,7 +57,7 @@ EMPLOYEEinMEMO=1  : # If 1 then employee name is included in memo field, otherwi
 PROGRESS=         : # If 1 then progress marks are included, otherwise not
 DEBUG=            : # If 1 then debug output is included, otherwise not
 EOG
-  echo "New config file created.  Please edit WORKPATH and run again." 
+  echo "New config file created.  Please edit WORKPATH and run again."
   exit 0
 }
 
@@ -101,18 +101,20 @@ if [ "${1}" == "--clear" ]; then
   exit 0
 fi
 
-# select WORKDIR
-WORKDIR="$WORKPATH/$(ls "$WORKPATH" | fzf --border-label="Select main folder where all input files are located")"
 # --border=[style]
 #[rounded|sharp|bold|block|thinblock|double|horizontal|vertical|top|bottom|left|right|none] (default: rounded)
-XLSXINFILE=$(ls "${WORKDIR}"/*xlsx | fzf --border-label="Select input xlsx file")
-# Itemfile and Ratefile default to the same as XLSXINFILE but can be set manually to different files
-ITEMFILE="$XLSXINFILE"
-RATEFILE="$XLSXINFILE"
-# set OUTFILE to XLSXINFILE with -OUT appended before the extension and replace the extension with csv
-OUTFILE=$(echo "$XLSXINFILE" | sed 's/\(.*\)\..*/\1-OUT.csv/')
-# show the list of xlsx files but exclude the one already selected for XLSXINFILE and select one for CLASSLIST
-CLASSLIST=$(ls -1 "${WORKDIR}"/*xlsx | grep -v "$XLSXINFILE" | fzf --border-label="Select Class List file")
+
+
+# select WORKDIR
+WORKDIR="$WORKPATH/$(ls "$WORKPATH" | fzf --border-label="Select folder where review file is located")"
+[ "$XLSXINFILE" == "" ] && XLSXINFILE=$(ls "${WORKDIR}"/*xlsx | fzf --border-label="Select input xlsx file")
+# set OUTFILE to XLSXINFILE with "Review" replaced with "Import" and replace the extension with csv then replace /Files - GLM All/Billing/ with /Files - GLM Admin/Human Resources/Time-Cost Reports/
+[ "$OUTFILE" == "" ] && OUTFILE=$(echo "$XLSXINFILE" | sed 's/\/Files - GLM All\/Billing\//\/Files - GLM Admin\/Human Resources\/Time-Cost Reports\//' | sed 's/Review/Import/' | sed 's/\(.*\)\..*/\1.csv/')
+# show the list of xlsx files and select one for CLASSLIST
+[ -e "$CLASSLIST" ] || CLASSLIST=$(ls -1 "${WORKDIR}"/../*xlsx | fzf --border-label="Select Class List file")
+# Itemfile and Ratefile default to the same dir as OUTFILE and the filename LookUps.xlsx but can be set manually to different files
+[ -e "$ITEMFILE" ] || ITEMFILE="$(dirname "$OUTFILE")/LookUps.xlsx"
+[ -e "$RATEFILE" ] || RATEFILE="$(dirname "$OUTFILE")/LookUps.xlsx"
 
 # verify all files exist except INFILE and OUTFILE, send a message and exit if not
 for FILE in "$XLSXINFILE" "$ITEMFILE" "$RATEFILE" "$CLASSLIST"; do
@@ -153,4 +155,3 @@ fi
 exit 0
 
 # End of script
-
