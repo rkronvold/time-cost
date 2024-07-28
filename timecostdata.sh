@@ -75,10 +75,11 @@ blankhours() { csvgrep -c "quantity" -r "^\\s*$" "$POSTFILE" | csvlook; }
 badcustomers() {
   # find all bad customer name in hours data
   # if customer name has a colon and the part before the colon matches the class, then it's a bad customer name
-  while check in $(csvgrep -c "customer name" -r ":" "$POSTFILE" | csvcut -c "customer name" | tail -n+2); do
-    customer=$(echo $check | cut -d: -f1)
-    class=$(csvgrep -c "customer name" -r "^${customer}$" "$POSTFILE" | csvcut -c "class" | tail -n+2)
-    [ "$customer" == "$class" ] && echo Check $customer in input file
+  csvgrep -c "customer name" -r ":" "$POSTFILE" | csvcut -c "customer name" | tail -n+2 | while read -r checkthiscustomer;
+  do
+    customer=$(echo $checkthiscustomer | cut -d: -f1)
+    class=$(csvgrep -c "customer name" -r "^${checkthiscustomer}$" "$POSTFILE" | csvcut -c "class" | tail -n+2)
+    [ "$customer" == "$class" ] && echo Check $checkthiscustomer in input file
   done
 }
 starttimer() { STARTTIME=$(date +%s); }
@@ -306,8 +307,8 @@ echo ""
 rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
 
 # prompt to move output to final destination
-echo "Move $POSTFILE to $OUTFILE? (y/n)" ; read -r answer
-[ "$answer" == "y" ] &&  mv -iv "$POSTFILE" "$OUTFILE" && echo "Moved $POSTFILE to $OUTFILE" >&2
+echo "Export $POSTFILE to $OUTFILE? (y/n)" ; read -r answer
+[ "$answer" == "y" ] && csvformat -U 0 "$POSTFILE" > "$OUTFILE" && echo "Exported $POSTFILE to $OUTFILE" >&2
 # if POSTFILE still exists, then it wasn't moved
 [ -e "$POSTFILE" ] && echo "Temporary file $POSTFILE preserved." >&2
 exit 0
