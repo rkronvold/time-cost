@@ -78,7 +78,7 @@ badcustomers() {
   csvgrep -c "customer name" -r ":" "$POSTFILE" | csvcut -c "customer name" | tail -n+2 | while read -r checkthiscustomer;
   do
     customer=$(echo $checkthiscustomer | cut -d: -f1)
-    class=$(csvgrep -c "customer name" -r "^${checkthiscustomer}$" "$POSTFILE" | csvcut -c "class" | tail -n+2)
+    class=$(csvgrep -c "customer name" -r "^${checkthiscustomer}" "$POSTFILE" | csvcut -c "class" | tail -n+2)
     [ "$customer" == "$class" ] && echo Check $checkthiscustomer in input file
   done
 }
@@ -262,8 +262,8 @@ do  # for each employee, make a list of all employeeServiceItem
   #   [ "${DEBUG}" ] && echo "invoice=$invoice" >&2
 
       # "employee","customer name","item","account","quantity","cost","amount","memo","class","invoice","billable","date"
-      csv "$employee" "$employeeServiceItemCustomer" "$item" "$account" "$quantity" "$cost" "$amount" "$employeeServiceItem" "$class" "$invoice" "N" "$THISMONTH"
-      csv "$employee" "" "$item" "$account" "$reversequantity" "$cost" "$reverseamount" "$employeeServiceItem" "" "$invoice" "" "$THISMONTH"
+      csv $employee $employeeServiceItemCustomer "$item" "$account" "$quantity" "$cost" "$amount" $employeeServiceItem $class "$invoice" "N" "$THISMONTH"
+      csv $employee "" "$item" "$account" "$reversequantity" "$cost" "$reverseamount" $employeeServiceItem "" "$invoice" "" "$THISMONTH"
       [ "${PROGRESS}" ] && echo -n '.' >&2 # progress indicator 
     done 
   done 
