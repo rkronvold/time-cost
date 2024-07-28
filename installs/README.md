@@ -82,6 +82,7 @@
   sudo pip install csvkit
 \
   sudo apt install fzf
-\  
+
   \### alternative if apt doesn't have fzf
+
   \### cd ${HOME} ; git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf ; ${HOME}/.fzf/install --bin
