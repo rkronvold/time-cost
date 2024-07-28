@@ -45,6 +45,18 @@
   sudo service tailscale start
 \
   sudo service tailscale status
+- install sshd
+\
+  sudo apt install openssh-server
+\
+  sudo service start ssh
+\
+  cat > /etc/sudoers.d/ssh <<EOF
+\
+  %sudo ALL=NOPASSWD: /usr/sbin/service ssh *
+\
+  EOF
+\
 - configure wsl.conf
 \
   [boot]
@@ -63,8 +75,6 @@
   sudo apt install bc
 \
   sudo apt install pip
-\
-  sudo apt install opensshd-server
 \
   sudo pip install csvkit
 \
