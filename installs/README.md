@@ -2,7 +2,7 @@
 \
   mkdir -p ~/.ssh
 \
-  cat > .ssh/authorized_keys < EOF\  
+  cat > .ssh/authorized_keys < EOF 
   ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAo/9UMIf0Iq/07LUYyHlwu7Q5fodRZuqth56zsZiXeCMNeRRBhEWA/a+KpXjdgaW5pRyD7Tew6mf2EIWEM7NEPujfSdzMuRp/Uw8E7m/+hkVNCCEsYYe96IR8ldFgkfqi6UGIQZkKTgzli5mRAcPbU5xByAf9cNmC32yN9XFHPoaiiIzWQXtgWf81wAszBa6bP5PdJJK+GfapoLgn5hbHsGqH0H667XxZas73EvoKjHpy89XH0Z5jaHKIxbgHGwUvOBqZ4fUTlDm8teeOs+GdneCblHuXXF8+2HP4bWaifch8YANJutytsQI9DfcjhX+jRB7ZWOl1go+UEKjoY7R91G31t+At1qMKDynU+RBasRnXvlq41/Pf9xJANEaql7LxzJ9JCag88AyA6jjUJsYssOkWx7NizlHb5HPmJ3CHMqKcAyZSBf624DbRfqh5jAG+mCNLzxFoXf7H+5sGwKLiMzKa+k/M4fCjCft4iAVu9fSqPyx/ST465XOd4hPQ9y18E/f+G2PbCZjJBFk03XtFUPIT0OGB00QvtwrK8f4eGS45/xKBU6ALu83fAfph8DZLxUOUSYCRa3JkOiaNe+MlWFUbWB2XLigHAP4owRXm0+s1GBf/5VGXB4Op7UPJP6I3ToIgtxnOeAw3XHRwAqjHpCeoGN/qj2IfT/+YEQnQZuU= mkronvold@github
   EOF
 \  chmod 600 .ssh/authorized_keys
