@@ -242,13 +242,14 @@ do  # for each employee, make a list of all employeeServiceItem
       reverseamount=$(calculate --scale=2 "$reversequantity * $cost")
   #   [ "${DEBUG}" ] && echo "amount=$amount"    >&2   
       # if a class result is empty and class is 2 parts seperated by a colon, then split it and discard the 2nd half
-      class=$(csvgrep -c "Client Name" -r "^${employeeServiceItemCustomer}$" "$CLASSTABLE" | csvcut -c "Counselor/Class" | tail -n+2)
+      class=$(csvgrep -c "Client Name" -r "^${esic}$" "$CLASSTABLE" | csvcut -c "Counselor/Class" | tail -n+2)
+     [ "${DEBUG}" ] && echo "pre-class=$class" >&2
       [ "$class" == "" ] && class=$(echo $employeeServiceItemCustomer | cut -d: -f1)
-  #   [ "${DEBUG}" ] && echo "class=$class" >&2
-      index=$(csvgrep -c "Employee" -r "^${employee}$" "$RATETABLE" | csvcut -c "Index" | tail -n+2)
+     [ "${DEBUG}" ] && echo "post-class=$class" >&2
+      index=$(csvgrep -c "Employee" -r "^${e}$" "$RATETABLE" | csvcut -c "Index" | tail -n+2)
       invoice=$(echo ${index}${LASTMONTH}cost)
-  #   [ "${DEBUG}" ] && echo "index=$index" >&2
-  #   [ "${DEBUG}" ] && echo "invoice=$invoice" >&2
+     [ "${DEBUG}" ] && echo "index=$index" >&2
+     [ "${DEBUG}" ] && echo "invoice=$invoice" >&2
 
       # "employee","customer name","item","account","quantity","cost","amount","memo","class","invoice","billable","date"
       csv "$employee" "$employeeServiceItemCustomer" "$item" "$account" "$quantity" "$cost" "$amount" "$employeeServiceItem" "$class" "$invoice" "N" "$THISMONTH"
@@ -286,7 +287,7 @@ hr
 echo ""
 
 # cleanup all temp files
-rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
+[ "${CLEANUP}" ] && rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
 
 # prompt to move output to final destination
 echo "Move $POSTFILE to $OUTFILE? (y/n)" ; read -r answer
