@@ -1,7 +1,7 @@
-- install WSL2 on glmusr76
-- install python, git, csvkit, fzf, bc, emacs
-- install tailscale?
-- set up file share to shared drive?
-- change defaults to point to one drive
-- test
+- remove quotes around employee field in output
+- remove quotes around customer name field in output
+- all the classes are wrong in output
+- invoice should be index cost month, missing index
+- 
+- make checklist
 - create shortcuts
