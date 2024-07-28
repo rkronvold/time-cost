@@ -262,8 +262,10 @@ do  # for each employee, make a list of all employeeServiceItem
   #   [ "${DEBUG}" ] && echo "invoice=$invoice" >&2
 
       # "employee","customer name","item","account","quantity","cost","amount","memo","class","invoice","billable","date"
-      csv $employee $employeeServiceItemCustomer "$item" "$account" "$quantity" "$cost" "$amount" $employeeServiceItem $class "$invoice" "N" "$THISMONTH"
-      csv $employee "" "$item" "$account" "$reversequantity" "$cost" "$reverseamount" $employeeServiceItem "" "$invoice" "" "$THISMONTH"
+#      csv "$employee" "$employeeServiceItemCustomer" "$item" "$account" "$quantity" "$cost" "$amount" "$employeeServiceItem" "$class" "$invoice" "N" "$THISMONTH"
+#      csv "$employee" "" "$item" "$account" "$reversequantity" "$cost" "$reverseamount" "$employeeServiceItem" "" "$invoice" "" "$THISMONTH"
+      csv "$e" "$esic" "$item" "$account" "$quantity" "$cost" "$amount" "$esi" "$class" "$invoice" "N" "$THISMONTH"
+      csv "$e" "" "$item" "$account" "$reversequantity" "$cost" "$reverseamount" "$esi" "" "$invoice" "" "$THISMONTH"
       [ "${PROGRESS}" ] && echo -n '.' >&2 # progress indicator 
     done 
   done 
@@ -297,18 +299,20 @@ hr
 echo ""
 
 # find all bad customer name in hours data
-echo "===Bad Customer Names in Input===" >&2
-hr
-badcustomers
-hr
-echo ""
+#echo "===Bad Customer Names in Input===" >&2
+#hr
+#badcustomers
+#hr
+#echo ""
 
 # cleanup all temp files
 rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
 
 # prompt to move output to final destination
 echo "Export $POSTFILE to $OUTFILE? (y/n)" ; read -r answer
-[ "$answer" == "y" ] && csvformat -U 0 "$POSTFILE" > "$OUTFILE" && echo "Exported $POSTFILE to $OUTFILE" >&2
+#[ "$answer" == "y" ] && csvformat -U 0 "$POSTFILE" > "$OUTFILE" && echo "Exported $POSTFILE to $OUTFILE" >&2
+#[ "$answer" == "y" ] && mv -iv "$POSTFILE" "$OUTFILE" && echo "Moved $POSTFILE to $OUTFILE" >&2
+[ "$answer" == "y" ] && cat "$POSTFILE" > "$OUTFILE" && echo "Exported $POSTFILE to $OUTFILE" >&2
 # if POSTFILE still exists, then it wasn't moved
 [ -e "$POSTFILE" ] && echo "Temporary file $POSTFILE preserved." >&2
 exit 0
