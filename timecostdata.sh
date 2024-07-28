@@ -71,7 +71,16 @@ calculate()
 
 hr () { printf "%0$(tput cols)d" | tr 0 ${1:-=}; }
 
-blankhours() { csvgrep -c "quantity" -r "^\\s*$" $POSTFILE | csvlook; }
+blankhours() { csvgrep -c "quantity" -r "^\\s*$" "$POSTFILE" | csvlook; }
+badcustomers() {
+  # find all bad customer name in hours data
+  # if customer name has a colon and the part before the colon matches the class, then it's a bad customer name
+  while check in $(csvgrep -c "customer name" -r ":" "$POSTFILE" | csvcut -c "customer name" | tail -n+2); do
+    customer=$(echo $check | cut -d: -f1)
+    class=$(csvgrep -c "customer name" -r "^${customer}$" "$POSTFILE" | csvcut -c "class" | tail -n+2)
+    [ "$customer" == "$class" ] && echo Check $customer in input file
+  done
+}
 starttimer() { STARTTIME=$(date +%s); }
 stoptimer() { ENDTIME=$(date +%s); ELAPSED=$(( $ENDTIME - $STARTTIME )); echo "Elapsed time: $ELAPSED seconds"; }
 
@@ -277,7 +286,7 @@ totalpositivehours=$(csvcut -c "quantity" "$POSTFILE" | tail -n+2 | awk '{if ($1
 totalhours=$(csvcut -c "quantity" "$POSTFILE" | tail -n+2 | awk '{s+=$1} END {print s}')
 # total amount column
 totalamount=$(csvcut -c "amount" "$POSTFILE" | tail -n+2 | awk '{s+=$1} END {print s}')
-printf "Total Output Hours,Total Output Amount,Total Raw Input Hours,Total Positive Output Hours\n$totalhours,$totalamount,$totalrawhours,$totalpositivehours" | csvlook -y 0 -I
+printf "Total Output Hours,Total Output Amount,Total Raw Input Hours,Total Positive Output Hours\n$totalhours,$totalamount,$totalrawhours,$totalpositivehours\nShould be 0,Should be 0,Should be same as ->,Should be same as <-" | csvlook -y 0 -I
 
 # find all blank hours
 echo "===Blank Hours===" >&2
@@ -286,8 +295,15 @@ blankhours
 hr
 echo ""
 
+# find all bad customer name in hours data
+echo "===Bad Customer Names in Input===" >&2
+hr
+badcustomers
+hr
+echo ""
+
 # cleanup all temp files
-[ "${CLEANUP}" ] && rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
+rm -f "$INFILE" "$CLEANFILE" "$CLEANTMPFILE" "$HEADERFILE" "$PREPFILE" "$EISCFILE" "$ITEMTABLE" "$RATETABLE" "$CLASSTABLE" "$ETABLE" "$ESITABLE" "$ESICTABLE"
 
 # prompt to move output to final destination
 echo "Move $POSTFILE to $OUTFILE? (y/n)" ; read -r answer
