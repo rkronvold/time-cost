@@ -4,3 +4,4 @@
 *.bak
 *.backup
 tmp/*
+timecostdata.conf
