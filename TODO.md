@@ -1,7 +1,6 @@
-- remove quotes around employee field in output
-- remove quotes around customer name field in output
-- all the classes are wrong in output
-- invoice should be index cost month, missing index
-- 
-- make checklist
-- create shortcuts
+[] add bad customer name check
+[] check for no empty hours
+[] make monthly checklist 
+[] create shortcuts, aliases, cleanup shell
+[] create backup of wsl environment
+[] rewrite config tool
