@@ -35,8 +35,8 @@ WORKPATH="/mnt/c/Users/rkronvold/OneDrive - GLM"    : # this MUST be set
 CONFDIR="\$(pwd)"                                   : # no need to change this
 TMPDIR="\${CONFDIR}/tmp"                            : # defaults to under wherever the conf file is
 :
-#working files
-INFILE="\${TMPDIR}/inputfile.csv"                   : # This should automatically be set to match the XLSXINFILE
+#working files                                      : # These should automatically
+INFILE="\${TMPDIR}/inputfile.csv"
 CLEANFILE="\${TMPDIR}/cleaned_timesheet.csv"
 CLEANTMPFILE="\${TMPDIR}/tmp_timesheet.csv"
 HEADERFILE="\${TMPDIR}/header.csv"
@@ -44,7 +44,7 @@ PREPFILE="\${TMPDIR}/prepared_timesheet.csv"
 EISCFILE="\${TMPDIR}/prepared_esic.csv"
 POSTFILE="\${TMPDIR}/post_timesheet.csv"
 :
-#data tables
+#data tables                                         : # These should automatically
 ITEMTABLE="\${TMPDIR}/itemtable.csv"
 RATETABLE="\${TMPDIR}/ratetable.csv"
 CLASSTABLE="\${TMPDIR}/classtable.csv"
@@ -52,7 +52,7 @@ ETABLE="\${TMPDIR}/employee.csv"
 ESITABLE="\${TMPDIR}/esitable.csv"
 ESICTABLE="\${TMPDIR}/esictable.csv"
 :
-#settings
+#settings                                            : # These are set to defaults automatically
 EMPLOYEEinMEMO=1  : # If 1 then employee name is included in memo field, otherwise just the service item
 PROGRESS=         : # If 1 then progress marks are included, otherwise not
 DEBUG=            : # If 1 then debug output is included, otherwise not
@@ -104,14 +104,15 @@ fi
 # --border=[style]
 #[rounded|sharp|bold|block|thinblock|double|horizontal|vertical|top|bottom|left|right|none] (default: rounded)
 
-
+THISMONTH=$(date +'%m-%Y')
+LASTMONTH=$THISMONTH
 # select WORKDIR
-WORKDIR="$WORKPATH/$(ls "$WORKPATH" | fzf --border-label="Select folder where review file is located")"
-[ "$XLSXINFILE" == "" ] && XLSXINFILE=$(ls "${WORKDIR}"/*xlsx | fzf --border-label="Select input xlsx file")
+WORKDIR="$WORKPATH/$(ls "$WORKPATH" | fzf -1 --query=${THISMONTH} --border-label="Select folder where review file is located")"
+[ "$XLSXINFILE" == "" ] && XLSXINFILE=$(ls "${WORKDIR}"/*Review.xlsx | fzf -1 --query=${LASTMONTH} --border-label="Select input xlsx file")
 # set OUTFILE to XLSXINFILE with "Review" replaced with "Import" and replace the extension with csv then replace /Files - GLM All/Billing/ with /Files - GLM Admin/Human Resources/Time-Cost Reports/
 [ "$OUTFILE" == "" ] && OUTFILE=$(echo "$XLSXINFILE" | sed 's/\/Files - GLM All\/Billing\//\/Files - GLM Admin\/Human Resources\/Time-Cost Reports\//' | sed 's/Review/Import/' | sed 's/\(.*\)\..*/\1.csv/')
 # show the list of xlsx files and select one for CLASSLIST
-[ -e "$CLASSLIST" ] || CLASSLIST=$(ls -1 "${WORKDIR}"/../*xlsx | fzf --border-label="Select Class List file")
+[ -e "$CLASSLIST" ] || CLASSLIST=$(ls -1 "${WORKDIR}"/../*xlsx | fzf -1 --border-label="Select Class List file")
 # Itemfile and Ratefile default to the same dir as OUTFILE and the filename LookUps.xlsx but can be set manually to different files
 [ -e "$ITEMFILE" ] || ITEMFILE="$(dirname "$OUTFILE")/LookUps.xlsx"
 [ -e "$RATEFILE" ] || RATEFILE="$(dirname "$OUTFILE")/LookUps.xlsx"
