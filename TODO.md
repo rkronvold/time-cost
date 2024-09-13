@@ -14,3 +14,4 @@
 - [ ] create shortcuts, aliases, cleanup shell
 - [ ] create backup of wsl environment
 - [ ] rewrite config tool
+- [ ] In customer name column, output returns We Wash Holdings LLC:We Wash /$3 Express Wash Inc, should be We Wash Holdings LLC:We Wash $3 Express Wash Inc
