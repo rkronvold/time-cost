@@ -1,1 +1,16 @@
-README.md
+- [x] install WSL2 on glmusr76
+- [x] install python, git, csvkit, fzf, bc, emacs
+- [x] install tailscale?
+- [x] set up file share to shared drive?
+- [x] change defaults to point to one drive
+- [x] test with june data
+- [x] remove quotes around employee field in output
+- [x] remove quotes around customer name field in output
+- [x] all the classes are wrong in output
+- [x] invoice should be index cost month, missing index
+- [ ] add bad customer name check
+- [ ] check for no empty hours
+- [ ] make monthly checklist 
+- [ ] create shortcuts, aliases, cleanup shell
+- [ ] create backup of wsl environment
+- [ ] rewrite config tool
