@@ -105,7 +105,7 @@ fi
 #[rounded|sharp|bold|block|thinblock|double|horizontal|vertical|top|bottom|left|right|none] (default: rounded)
 
 THISMONTH=$(date +'%m-%Y')
-LASTMONTH=$THISMONTH
+LASTMONTH=$(date -d "last month" +'%m-%Y')
 # select WORKDIR
 WORKDIR="$WORKPATH/$(ls "$WORKPATH" | fzf -1 --query=${THISMONTH} --border-label="Select folder where review file is located")"
 [ "$XLSXINFILE" == "" ] && XLSXINFILE=$(ls "${WORKDIR}"/*Review.xlsx | fzf -1 --query=${LASTMONTH} --border-label="Select input xlsx file")
