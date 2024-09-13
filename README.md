@@ -11,5 +11,7 @@
 - git pull
 - ./timecostdata.sh
 - 1st 3 steps should take less than 30 seconds
-- final steps should take 5-10 minutes, review sanity checks
+- final steps should take 5-10 minutes
+- review sanity checks
+- Y to output file
 - review output file for anomalies before using Transaction Pro to import into QB
