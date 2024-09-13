@@ -1,17 +1,15 @@
-- [x] install WSL2 on glmusr76
-- [x] install python, git, csvkit, fzf, bc, emacs
-- [x] install tailscale?
-- [x] set up file share to shared drive?
-- [x] change defaults to point to one drive
-- [x] test with june data
-- [x] remove quotes around employee field in output
-- [x] remove quotes around customer name field in output
-- [x] all the classes are wrong in output
-- [x] invoice should be index cost month, missing index
-- [ ] add bad customer name check
-- [ ] check for no empty hours
-- [ ] make monthly checklist 
-- [ ] create shortcuts, aliases, cleanup shell
-- [ ] create backup of wsl environment
-- [ ] rewrite config tool
-- [ ] In customer name column, output returns We Wash Holdings LLC:We Wash /$3 Express Wash Inc, should be We Wash Holdings LLC:We Wash $3 Express Wash Inc
+# Monthly Steps
+
+- open browser & go to git hub https://github.com/rkronvold/time-cost/ (repository is time-cost)
+- Verify input files are in the right places and named correctly to correspond with first few lines of timecostdata.conf (Monthly Hours from Billing folder, Class List Master & LookUps)
+- Make folder for output if needed
+- Make adjustments or additions to employees or rates in look up file as needed & add employees to vendor list in QB as needed
+- open timecostdata.conf & edit dates in input and output files to current month
+- Commit changes
+- open Ubuntu from shortcut or Windows menu (should be logged in as rkronvold@Glmusr76)
+- cd time-cost
+- git pull
+- ./timecostdata.sh
+- 1st 3 steps should take less than 30 seconds
+- final steps should take 5-10 minutes, review sanity checks
+- review output file for anomalies before using Transaction Pro to import into QB
