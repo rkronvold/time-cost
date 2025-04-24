@@ -14,4 +14,4 @@
 - final steps should take 5-10 minutes
 - review sanity checks
 - Y to output file
-- review output file for anomalies before using Transaction Pro to import into QB
+- review output file for anomalies before using Transaction Pro to import into QB (look for \ and remove)
