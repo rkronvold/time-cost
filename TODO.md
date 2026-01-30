@@ -15,3 +15,5 @@
 - [ ] create backup of wsl environment
 - [ ] rewrite config tool
 - [ ] In customer name column, output returns We Wash Holdings LLC:We Wash /$3 Express Wash Inc, should be We Wash Holdings LLC:We Wash $3 Express Wash Inc
+- [ ] Change fixed invoice number and posting date to selectable number/dates
+- [ ] Make invoice number match to date part of file name and make posting date 1 month after date part of file name
